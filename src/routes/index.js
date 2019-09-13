@@ -1,5 +1,6 @@
 const bouyController = require('../controllers/bouyController');
 const legController = require('../controllers/legController');
+const shipController = require('../controllers/shipController');
 
 const routes = [
   {
@@ -51,6 +52,31 @@ const routes = [
     method: 'DELETE',
     url: '/api/legs/:id',
     handler: legController.deleteLeg
+  },
+  {
+    method: 'GET',
+    url: '/api/ships',
+    handler: shipController.getShips
+  },
+  {
+    method: 'GET',
+    url: '/api/ships/:id',
+    handler: shipController.getShip
+  },
+  {
+    method: 'POST',
+    url: '/api/ships',
+    handler: shipController.addShip
+  },
+  {
+    method: 'PUT',
+    url: '/api/ships/:id',
+    handler: shipController.updateShip
+  },
+  {
+    method: 'DELETE',
+    url: '/api/ships/:id',
+    handler: shipController.deleteShip
   }
 ];
 
