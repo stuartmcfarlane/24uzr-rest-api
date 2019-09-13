@@ -1,4 +1,5 @@
 const bouyController = require('../controllers/bouyController');
+const legController = require('../controllers/legController');
 
 const routes = [
   {
@@ -25,6 +26,31 @@ const routes = [
     method: 'DELETE',
     url: '/api/bouys/:id',
     handler: bouyController.deleteBouy
+  },
+  {
+    method: 'GET',
+    url: '/api/legs',
+    handler: legController.getLegs
+  },
+  {
+    method: 'GET',
+    url: '/api/legs/:id',
+    handler: legController.getLeg
+  },
+  {
+    method: 'POST',
+    url: '/api/legs',
+    handler: legController.addLeg
+  },
+  {
+    method: 'PUT',
+    url: '/api/legs/:id',
+    handler: legController.updateLeg
+  },
+  {
+    method: 'DELETE',
+    url: '/api/legs/:id',
+    handler: legController.deleteLeg
   }
 ];
 
