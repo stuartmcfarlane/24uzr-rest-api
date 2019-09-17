@@ -1,4 +1,4 @@
-exports.options = {
+exports = {
   mode: 'dynamic',
   routePrefix: '/documentation',
   exposeRoute: true,

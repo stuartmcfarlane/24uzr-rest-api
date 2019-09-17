@@ -1,9 +1,9 @@
 const boom = require('boom');
-const Bouy = require('../models/Bouy');
+const bouyService = require('../services/bouyService');
 
 exports.getBouys = async (req, reply) => {
     try {
-        const bouys = await Bouy.find();
+        const bouys = bouyService.getBouys();
         return bouys;
     } catch (err) {
         throw boom.boomify(err);
@@ -13,8 +13,7 @@ exports.getBouys = async (req, reply) => {
 exports.getBouy = async (req, reply) => {
     try {
         const id = req.params.id;
-        const bouy = await Bouy.find(id);
-        return bouys;
+        return bouyService.getBouy(id);
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -22,8 +21,7 @@ exports.getBouy = async (req, reply) => {
 
 exports.addBouy = async (req, reply) => {
     try {
-        const bouy = new Bouy(req.body);
-        return bouy.save();
+        return bouyService.addBouy(req.body);
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -33,9 +31,7 @@ exports.updateBouy = async (req, reply) => {
     try {
         const id = req.params.id;
         const bouy = req.body;
-        const { ...updateData } = bouy;
-        const update = await Bouy.findByIsAndUpdate(id, updateData, { new: true});
-        return update;
+        return bouyService.updateBouy(id, bouy);
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -44,8 +40,7 @@ exports.updateBouy = async (req, reply) => {
 exports.deleteBouy = async (req, reply) => {
     try {
         const id = req.params.id;
-        const bouy = await Bouy.findByIsAndRemove(id);
-        return bouy;
+        return bouyService.deleteBouy(id);
     } catch (err) {
         throw boom.boomify(err);
     }

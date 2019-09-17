@@ -1,6 +1,7 @@
 const bouyController = require('../controllers/bouyController');
 const legController = require('../controllers/legController');
 const shipController = require('../controllers/shipController');
+const routeController = require('../controllers/routeController');
 
 const routes = [
   {
@@ -77,7 +78,12 @@ const routes = [
     method: 'DELETE',
     url: '/api/ships/:id',
     handler: shipController.deleteShip
-  }
+  },
+  {
+    method: 'GET',
+    url: '/api/routes',
+    handler: routeController.getRoutes
+  },
 ];
 
 module.exports = routes;

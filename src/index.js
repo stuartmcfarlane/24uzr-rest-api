@@ -14,9 +14,8 @@ mongoose.connect(
     .catch( err => fastify.log.error(err) )
 ;
 
-const swagger = require('./config/swagger');
-const fastifySwagger = require('fastify-swagger');
-fastify.register(fastifySwagger, swagger.options);
+fastify.register(require('fastify-swagger'), require('./config/swagger'));
+fastify.register(require('fastify-cors'), require('./config/cors'));
 
 const routes = require('./routes');
 routes.forEach( (route, index) => {

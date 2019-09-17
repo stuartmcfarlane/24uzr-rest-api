@@ -1,10 +1,9 @@
 const boom = require('boom');
-const Ship = require('../models/Ship');
+const shipService = require('../services/shipService');
 
 exports.getShips = async (req, reply) => {
     try {
-        const ships = await Ship.find();
-        return ships;
+        return shipService.getShips();
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -13,8 +12,7 @@ exports.getShips = async (req, reply) => {
 exports.getShip = async (req, reply) => {
     try {
         const id = req.params.id;
-        const ship = await Ship.find(id);
-        return ships;
+        return shipService.getShip(id);
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -23,7 +21,7 @@ exports.getShip = async (req, reply) => {
 exports.addShip = async (req, reply) => {
     try {
         const ship = new Ship(req.body);
-        return ship.save();
+        return shipService.addShip(ship);
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -33,9 +31,7 @@ exports.updateShip = async (req, reply) => {
     try {
         const id = req.params.id;
         const ship = req.body;
-        const { ...updateData } = ship;
-        const update = await Ship.findByIsAndUpdate(id, updateData, { new: true});
-        return update;
+        return shipService.updateShip(id, ship);
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -44,8 +40,7 @@ exports.updateShip = async (req, reply) => {
 exports.deleteShip = async (req, reply) => {
     try {
         const id = req.params.id;
-        const ship = await Ship.findByIsAndRemove(id);
-        return ship;
+        return shipService.deleteShip(id);
     } catch (err) {
         throw boom.boomify(err);
     }

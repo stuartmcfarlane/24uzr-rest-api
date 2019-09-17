@@ -1,10 +1,9 @@
 const boom = require('boom');
-const Leg = require('../models/Leg');
+const legService = require('../services/legService');
 
 exports.getLegs = async (req, reply) => {
     try {
-        const legs = await Leg.find();
-        return legs;
+        return legService.getLegs();
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -12,9 +11,10 @@ exports.getLegs = async (req, reply) => {
 
 exports.getLeg = async (req, reply) => {
     try {
+        console.log('params', req.params)
+        console.log('id', req.params.id)
         const id = req.params.id;
-        const leg = await Leg.find(id);
-        return legs;
+        return legService.getLeg(id);
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -22,8 +22,7 @@ exports.getLeg = async (req, reply) => {
 
 exports.addLeg = async (req, reply) => {
     try {
-        const leg = new Leg(req.body);
-        return leg.save();
+        return legService.addLeg(req.body);
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -33,9 +32,7 @@ exports.updateLeg = async (req, reply) => {
     try {
         const id = req.params.id;
         const leg = req.body;
-        const { ...updateData } = leg;
-        const update = await Leg.findByIsAndUpdate(id, updateData, { new: true});
-        return update;
+        return legService.updateLeg(id, leg);
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -44,8 +41,7 @@ exports.updateLeg = async (req, reply) => {
 exports.deleteLeg = async (req, reply) => {
     try {
         const id = req.params.id;
-        const leg = await Leg.findByIsAndRemove(id);
-        return leg;
+        return legService.deleteLeg(id);
     } catch (err) {
         throw boom.boomify(err);
     }
