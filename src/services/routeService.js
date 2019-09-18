@@ -13,8 +13,13 @@ exports.getRoutes = async (start, end) => {
         })
     };
     const res = await axios.post(`http://localhost:3002/route/shortest?start=${start}&end=${end}`, graph);
-    const routes = res.data;
-    console.log('got', routes)
-    return routes;
+    const foundRoute = res.data;
+    console.log('got', foundRoute)
+    const route = {
+        start: foundRoute.Start,
+        end: foundRoute.End,
+        path: foundRoute.Path
+    }
+    return route;
 }
 
