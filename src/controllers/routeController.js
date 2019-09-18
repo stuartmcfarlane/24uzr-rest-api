@@ -1,12 +1,11 @@
 const boom = require('boom');
+const routeService = require('../services/routeService');
 
 exports.getRoutes = async (req, reply) => {
     try {
-        console.log('req',req)
-        const params = req.query;
-        console.log('params',params)
-        // const routes = await Route.find();
-        return {routes: []};
+        const start = req.query.start;
+        const end = req.query.end;
+        return routeService.getRoutes(start, end);
     } catch (err) {
         throw boom.boomify(err);
     }
