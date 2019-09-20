@@ -1,6 +1,7 @@
 const bouyController = require('../controllers/bouyController');
 const legController = require('../controllers/legController');
 const shipController = require('../controllers/shipController');
+const mapController = require('../controllers/mapController');
 const routeController = require('../controllers/routeController');
 
 const routes = [
@@ -78,6 +79,31 @@ const routes = [
     method: 'DELETE',
     url: '/api/ships/:id',
     handler: shipController.deleteShip
+  },
+  {
+    method: 'GET',
+    url: '/api/maps',
+    handler: mapController.getMaps
+  },
+  {
+    method: 'GET',
+    url: '/api/maps/:id',
+    handler: mapController.getMap
+  },
+  {
+    method: 'POST',
+    url: '/api/maps',
+    handler: mapController.addMap
+  },
+  {
+    method: 'PUT',
+    url: '/api/maps/:id',
+    handler: mapController.updateMap
+  },
+  {
+    method: 'DELETE',
+    url: '/api/maps/:id',
+    handler: mapController.deleteMap
   },
   {
     method: 'GET',
