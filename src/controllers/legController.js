@@ -3,7 +3,8 @@ const legService = require('../services/legService');
 
 exports.getLegs = async (req, reply) => {
     try {
-        return legService.getLegs();
+        const query = req.query;
+        return legService.getLegs(query);
     } catch (err) {
         throw boom.boomify(err);
     }
@@ -11,8 +12,6 @@ exports.getLegs = async (req, reply) => {
 
 exports.getLeg = async (req, reply) => {
     try {
-        console.log('params', req.params)
-        console.log('id', req.params.id)
         const id = req.params.id;
         return legService.getLeg(id);
     } catch (err) {

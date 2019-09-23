@@ -1,8 +1,8 @@
 const boom = require('boom');
 const Leg = require('../models/Leg');
 
-exports.getLegs = async () => {
-    const legs = await Leg.find();
+exports.getLegs = async (query = {}) => {
+    const legs = await Leg.find(query);
     return legs;
 }
 

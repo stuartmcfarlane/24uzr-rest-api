@@ -1,8 +1,8 @@
 const legService = require('./legService');
 const axios = require('axios');
 
-exports.getRoutes = async (start, end) => {
-    const legs = await legService.getLegs();
+exports.getRoutes = async (mapId, start, end) => {
+    const legs = await legService.getLegs({mapId});
     const graph = {
         edges: legs.map( (leg) => {
             return {

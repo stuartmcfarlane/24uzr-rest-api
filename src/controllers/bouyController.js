@@ -3,7 +3,8 @@ const bouyService = require('../services/bouyService');
 
 exports.getBouys = async (req, reply) => {
     try {
-        const bouys = bouyService.getBouys();
+        const query = req.query;
+        const bouys = bouyService.getBouys(query);
         return bouys;
     } catch (err) {
         throw boom.boomify(err);

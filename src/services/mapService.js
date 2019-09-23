@@ -1,8 +1,8 @@
 const boom = require('boom');
 const Map = require('../models/Map');
 
-exports.getMaps = async () => {
-    const maps = await Map.find();
+exports.getMaps = async (query = {}) => {
+    const maps = await Map.find(query);
     return maps;
 }
 

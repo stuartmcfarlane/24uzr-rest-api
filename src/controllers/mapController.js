@@ -3,7 +3,9 @@ const mapService = require('../services/mapService');
 
 exports.getMaps = async (req, reply) => {
     try {
-        return mapService.getMaps();
+        const query = req.query;
+        console.log(query)
+        return mapService.getMaps(query);
     } catch (err) {
         throw boom.boomify(err);
     }
