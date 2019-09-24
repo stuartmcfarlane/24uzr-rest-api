@@ -3,8 +3,12 @@ const legController = require('../controllers/legController');
 const shipController = require('../controllers/shipController');
 const mapController = require('../controllers/mapController');
 const routeController = require('../controllers/routeController');
+const windController = require('../controllers/windController');
 
 const routes = [
+  //
+  // bouys
+  //
   {
     method: 'GET',
     url: '/api/bouys',
@@ -30,6 +34,9 @@ const routes = [
     url: '/api/bouys/:id',
     handler: bouyController.deleteBouy
   },
+  //
+  // legs
+  //
   {
     method: 'GET',
     url: '/api/legs',
@@ -55,6 +62,9 @@ const routes = [
     url: '/api/legs/:id',
     handler: legController.deleteLeg
   },
+  //
+  // ships
+  //
   {
     method: 'GET',
     url: '/api/ships',
@@ -80,6 +90,9 @@ const routes = [
     url: '/api/ships/:id',
     handler: shipController.deleteShip
   },
+  //
+  // maps
+  //
   {
     method: 'GET',
     url: '/api/maps',
@@ -105,10 +118,21 @@ const routes = [
     url: '/api/maps/:id',
     handler: mapController.deleteMap
   },
+  //
+  // routes
+  //
   {
     method: 'GET',
     url: '/api/routes',
     handler: routeController.getRoutes
+  },
+  //
+  // wind
+  //
+  {
+    method: 'GET',
+    url: '/api/wind',
+    handler: windController.getWind
   },
 ];
 
