@@ -2,7 +2,6 @@ const boom = require('boom');
 const Bouy = require('../models/Bouy');
 
 exports.getBouys = async (query = {}) => {
-    console.log(query)
     const bouys = await Bouy.find(query);
     return bouys;
 }
