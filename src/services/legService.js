@@ -7,7 +7,7 @@ exports.getLegs = async (query = {}) => {
 }
 
 exports.getLeg = async (id) => {
-    const leg = await Leg.find({_id: id});
+    const leg = await Leg.findById(id);
     return leg;
 }
 
@@ -17,11 +17,11 @@ exports.addLeg = async (leg) => {
 
 exports.updateLeg = async (id, leg) => {
     const { ...updateData } = leg;
-    const update = await Leg.findByIsAndUpdate(id, updateData, { new: true});
+    const update = await Leg.findByIdAndUpdate(id, updateData, { new: true});
     return update;
 }
 
 exports.deleteLeg = async (id) => {
-    const leg = await Leg.findByIsAndRemove(id);
+    const leg = await Leg.findByIdAndRemove(id);
     return leg;
 }

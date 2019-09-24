@@ -7,7 +7,7 @@ exports.getMaps = async (query = {}) => {
 }
 
 exports.getMap = async (id) => {
-    const map = await Map.find({_id:id});
+    const map = await Map.findById(id);
     return map;
 }
 
@@ -17,11 +17,11 @@ exports.addMap = async (map) => {
 
 exports.updateMap = async (id, map) => {
     const { ...updateData } = map;
-    const update = await Map.findByIsAndUpdate(id, updateData, { new: true});
+    const update = await Map.findByIdAndUpdate(id, updateData, { new: true});
     return update;
 }
 
 exports.deleteMap = async (id) => {
-    const map = await Map.findByIsAndRemove(id);
+    const map = await Map.findByIdAndRemove(id);
     return map;
 }

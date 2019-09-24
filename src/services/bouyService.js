@@ -7,7 +7,7 @@ exports.getBouys = async (query = {}) => {
 }
 
 exports.getBouy = async (id) => {
-    const bouy = await Bouy.find({ _id: id });
+    const bouy = await Bouy.findById(id);
     return bouy;
 }
 
@@ -17,11 +17,11 @@ exports.addBouy = async (bouy) => {
 
 exports.updateBouy = async (id, bouy) => {
     const { ...updateData } = bouy;
-    const update = await Bouy.findByIsAndUpdate(id, updateData, { new: true});
+    const update = await Bouy.findByIdAndUpdate(id, updateData, { new: true});
     return update;
 }
 
 exports.deleteBouy = async (id) => {
-    const bouy = await Bouy.findByIsAndRemove(id);
+    const bouy = await Bouy.findByIdAndRemove(id);
     return bouy;
 }

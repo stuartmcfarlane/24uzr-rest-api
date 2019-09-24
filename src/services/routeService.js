@@ -5,6 +5,7 @@ const shipService = require('./shipService');
 const axios = require('axios');
 
 exports.getRoutes = async (shipId, mapId, start, end) => {
+    console.log('getRoutes for ship', shipId)
     const [
         ship,
         legs,
