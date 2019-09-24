@@ -25,3 +25,7 @@ exports.deleteShip = async (id) => {
     const ship = await Ship.findByIsAndRemove(id);
     return ship;
 }
+
+exports.knotsVMG = (ship, shipDegrees, windKnots, windDegrees)  => {
+    return 5;
+}

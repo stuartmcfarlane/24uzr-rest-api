@@ -1,21 +1,42 @@
 const legService = require('./legService');
 const bouyService = require('./bouyService');
+const windService = require('./windService');
+const shipService = require('./shipService');
 const axios = require('axios');
 
-exports.getRoutes = async (mapId, start, end) => {
-    const [legs, bouys] = await Promise.all([legService.getLegs({mapId}), bouyService.getBouys({mapId})]);
+exports.getRoutes = async (shipId, mapId, start, end) => {
+    const [
+        ship,
+        legs,
+        bouys,
+        wind
+    ] = await Promise.all([
+        shipService.getShip(shipId),
+        legService.getLegs({mapId}),
+        bouyService.getBouys({mapId}),
+        windService.getWind({mapId})
+    ]);
     const bouysById = bouys.reduce( (bouysById,bouy) => {
         bouysById[bouy._id] = bouy;
         return bouysById;
     }, {})
     const graph = {
         edges: legs.map( (leg) => {
+            const start = bouysById[leg.start];
+            const end = bouysById[leg.end];
+            const metres = getMetres(start.location, end.location);
+            const metresPerSecondSE = getMetresPerSecondVMG(
+                    ship, wind, start.location, end.location
+                );
+            const metresPerSecondES = getMetresPerSecondVMG(
+                    ship, wind, end.location, start.location
+                );
             return {
                 start: leg.start._id,
                 end: leg.end._id,
-                weight: 1,
-                weightSE: getWeight(bouysById[leg.start].location, bouysById[leg.end].location),
-                weightES: getWeight(bouysById[leg.end].location, bouysById[leg.start].location),
+                metres,
+                metresPerSecondSE,
+                metresPerSecondES,
             }
         })
     };
@@ -28,7 +49,7 @@ exports.getRoutes = async (mapId, start, end) => {
         end: foundRoutes.End,
         paths: foundRoutes.Paths.map(path => {
             return {
-                length: path.Weight,
+                length: path.Metres,
                 bouys: path.Nodes,
             }
         })
@@ -36,11 +57,14 @@ exports.getRoutes = async (mapId, start, end) => {
     return routes;
 }
 
-function getWeight(start, end) {
-    // weight in both directions is leg length
-    console.log('start', start)
-    console.log('end', end)
+const getMetres = (start, end) => {
     return distanceLatLan(start.lat, start.lon, end.lat, end.lon);
+}
+const getMetresPerSecondVMG = (ship, wind, start, end) => {
+    const windAtStart = windService.windAtLocation(start);
+    const shipDegrees = bearingLatLan(start.lat, start.lon, end.lat, end.lon);
+    const knotsVMG = shipService.knotsVMG(ship, shipDegrees, windAtStart.knots, windAtStart.degrees);
+    return knots2metersPerSecond(knotsVMG);
 }
 
 const toRadians = function(d) { return d * Math.PI / 180; };
@@ -61,3 +85,19 @@ function distanceLatLan(lat1, lon1, lat2, lon2) {
     var d = R * c;
     return d;
 }
+
+function bearingLatLan(lat1, lon1, lat2, lon2) {
+    var φ1 = toRadians(lat1);
+    var φ2 = toRadians(lat2);
+    var Δλ = toRadians(lon2-lon1);
+    var y = Math.sin(Δλ) * Math.cos(φ2);
+    var x = Math.cos(φ1)*Math.sin(φ2) -
+            Math.sin(φ1)*Math.cos(φ2)*Math.cos(Δλ);
+    var brng = toDegrees(Math.atan2(y, x));
+    return brng;
+}
+
+function knots2metersPerSecond(knots) {
+    return knots + 0.514444;
+}
+
