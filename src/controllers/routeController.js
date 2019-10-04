@@ -7,7 +7,11 @@ exports.getRoutes = async (req, reply) => {
         const end = req.query.end;
         const mapId = req.query.mapId;
         const shipId = req.query.shipId;
-        return routeService.getRoutes(shipId, mapId, start, end);
+        const wind = {
+            knots: req.query.windKnots,
+            degrees: req.query.windDegrees
+        };
+        return routeService.getRoutes(shipId, mapId, start, end, wind);
     } catch (err) {
         throw boom.boomify(err);
     }

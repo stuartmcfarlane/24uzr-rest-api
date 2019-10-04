@@ -4,18 +4,18 @@ const windService = require('./windService');
 const shipService = require('./shipService');
 const axios = require('axios');
 
-exports.getRoutes = async (shipId, mapId, start, end) => {
+exports.getRoutes = async (shipId, mapId, start, end, wind) => {
     console.log('getRoutes for ship', shipId)
     const [
         ship,
         legs,
         bouys,
-        wind
+        // wind
     ] = await Promise.all([
         shipService.getShip(shipId),
         legService.getLegs({mapId}),
         bouyService.getBouys({mapId}),
-        windService.getWind({mapId})
+        // windService.getWind({mapId})
     ]);
     const bouysById = bouys.reduce( (bouysById,bouy) => {
         bouysById[bouy._id] = bouy;
@@ -51,6 +51,7 @@ exports.getRoutes = async (shipId, mapId, start, end) => {
         paths: foundRoutes.Paths.map(path => {
             return {
                 length: path.Metres,
+                seconds: path.Seconds,
                 bouys: path.Nodes,
             }
         })
@@ -62,9 +63,10 @@ const getMetres = (start, end) => {
     return distanceLatLan(start.lat, start.lon, end.lat, end.lon);
 }
 const getMetresPerSecondVMG = (ship, wind, start, end) => {
-    const windAtStart = windService.windAtLocation(start);
+    const windAtStart = windService.windAtLocation(wind, start);
     const shipDegrees = bearingLatLan(start.lat, start.lon, end.lat, end.lon);
     const knotsVMG = shipService.knotsVMG(ship, shipDegrees, windAtStart.knots, windAtStart.degrees);
+    console.log('speed', wind, knots2metersPerSecond(knotsVMG))
     return knots2metersPerSecond(knotsVMG);
 }
 

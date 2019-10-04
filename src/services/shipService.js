@@ -64,5 +64,6 @@ exports.knotsVMG = (ship, shipDegrees, windKnots, windDegrees)  => {
         a = b;
         v = w;
     }
+    console.log('vmg', windKnots, shipDegrees, windDegrees, vmg)
     return vmg;
 }

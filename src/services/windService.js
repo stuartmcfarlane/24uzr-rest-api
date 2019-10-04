@@ -3,10 +3,9 @@ exports.getWind = async (mapId) => {
     return wind;
 }
 
-exports.windAtLocation = (location) => {
+exports.windAtLocation = (wind, location) => {
     return {
         location,
-        knots: 10,
-        degrees: 45
+        ...wind,
     }
 }
